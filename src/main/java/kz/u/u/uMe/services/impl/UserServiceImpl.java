@@ -114,14 +114,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByLogin(String login) {
+    public User findByUsername(String username) {
         Session session = hibernateFactory.openSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
         Root<User> root = criteriaQuery.from(User.class);
 
         Predicate predicate1 = criteriaBuilder.isNull(root.get("deletedAt"));
-        Predicate predicate2 = criteriaBuilder.equal(root.get("login"), login);
+        Predicate predicate2 = criteriaBuilder.equal(root.get("username"), username);
         Predicate andPredicate = criteriaBuilder.and(predicate1, predicate2);
 
         criteriaQuery.where(andPredicate);

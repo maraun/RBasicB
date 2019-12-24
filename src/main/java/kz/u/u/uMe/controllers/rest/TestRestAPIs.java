@@ -1,5 +1,6 @@
 package kz.u.u.uMe.controllers.rest;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ public class TestRestAPIs {
 	@GetMapping("/api/test/user")
 /*	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")*/
 	@PreAuthorize("hasRole('USER')")
+	@ApiOperation("Доступ Юзер")
 	public String userAccess() {
 		return ">>> User Contents!";
 	}
@@ -19,12 +21,14 @@ public class TestRestAPIs {
 	@GetMapping("/api/test/pm")
 /*	@PreAuthorize("hasRole('PM') or hasRole('ADMIN')")*/
 	@PreAuthorize("hasRole('PM')")
+	@ApiOperation("Доступ Менеджер")
 	public String projectManagementAccess() {
 		return ">>> Project Management Board";
 	}
 	
 	@GetMapping("/api/test/admin")
 	@PreAuthorize("hasRole('ADMIN')")
+	@ApiOperation("Доступ Админ")
 	public String adminAccess() {
 		return ">>> Admin Contents";
 	}

@@ -50,10 +50,33 @@ public class User extends AuditModel {
 /*    @ManyToOne
     @NotNull(message = "role is required")
     @OnDelete(action = OnDeleteAction.NO_ACTION)*/
-@ManyToMany(fetch = FetchType.LAZY)
+/*@ManyToMany(fetch = FetchType.LAZY)
 @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
+        inverseJoinColumns = @JoinColumn(name = "role_id"))*/
+@ManyToMany(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+)
+@JoinTable(
+        name = "user_roles",
+        joinColumns =
+                {
+                        @JoinColumn(
+                                name = "user_id",
+                                nullable = false,
+                                foreignKey = @ForeignKey(name = "fk_users_roles_users")
+                        )
+                },
+        inverseJoinColumns =
+                {
+                        @JoinColumn(
+                                name = "role_id",
+                                nullable = false,
+                                foreignKey = @ForeignKey(name = "fk_users_roles_roles")
+                        )
+                }
+)
 private Set<Role> roles = new HashSet<>();
 
 }

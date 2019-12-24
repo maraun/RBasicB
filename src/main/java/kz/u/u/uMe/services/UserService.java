@@ -17,5 +17,5 @@ public interface UserService /*extends UserDetailsService*/ {
     void delete(User user) throws ServiceException ;
     void deleteById(Long id) throws ServiceException ;
 /*    Set getAuthority(User user);*/
-    User findByLogin(String login);
+    User findByUsername(String username);
 }

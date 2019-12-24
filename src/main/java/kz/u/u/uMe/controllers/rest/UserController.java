@@ -47,7 +47,7 @@ public class UserController extends BaseController {
         return buildResponse(userMapper.toDto(user), HttpStatus.OK);
     }
 
-    @PostMapping("/validate")
+/*    @PostMapping("/validate")
     public ResponseEntity<?> validate(@RequestParam String login) throws ServiceException {
         User user = userService.findByLogin(login);
         if (user != null) {
@@ -56,7 +56,7 @@ public class UserController extends BaseController {
             return buildResponse(SuccessResponse.builder().message("OK").build(), HttpStatus.OK);
         }
 
-    }
+    }*/
 
 
     @DeleteMapping("{id}")
@@ -65,11 +65,11 @@ public class UserController extends BaseController {
         return buildResponse(SuccessResponse.builder().message("deleted").build(), HttpStatus.OK);
     }
 
-    @DeleteMapping
+/*    @DeleteMapping
     public ResponseEntity<?> delete(@RequestBody UserDto userDto) throws ServiceException {
         userService.delete(userMapper.toEntity(userDto));
         return buildResponse(SuccessResponse.builder().message("deleted").build(), HttpStatus.OK);
-    }
+    }*/
 
     @RequestMapping(method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<?> update(@RequestBody UserDto userDto) throws ServiceException {
@@ -82,8 +82,8 @@ public class UserController extends BaseController {
 
     @PostMapping("/current")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) throws ServiceException {
-        String login = authentication.getName();
-        User user = userService.findByLogin(login);
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
         return buildResponse(SuccessResponse.builder()
                 .message("found")
                 .data(userMapper.toDto(user))

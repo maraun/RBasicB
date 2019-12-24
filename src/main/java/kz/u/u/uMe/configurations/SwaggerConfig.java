@@ -15,9 +15,9 @@ import java.util.Collections;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
-//@EnableSwagger2
-//@Configuration
-//@Import(BeanValidatorPluginsConfiguration.class)
+@EnableSwagger2
+@Configuration
+@Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig {
 
     @Bean
