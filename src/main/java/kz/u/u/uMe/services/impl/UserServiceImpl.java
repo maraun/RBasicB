@@ -36,14 +36,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           EntityManagerFactory factory,
-                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           EntityManagerFactory factory) {
         this.userRepository = userRepository;
         if (factory.unwrap(SessionFactory.class) == null) {
             throw new NullPointerException("factory is not a hibernate factory");
         }
         this.hibernateFactory = factory.unwrap(SessionFactory.class);
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
     }
 
     @Override
@@ -136,13 +135,13 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
+/*    @Override
     public Set getAuthority(User user) {
         Set authorities = new HashSet<>();
         for (Role role : user.getRoles()){
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        /*user.getRoles().forEach((r) -> {authorities.add(new SimpleGrantedAuthority(r.getName()));});*//*TODO*/
+        *//*user.getRoles().forEach((r) -> {authorities.add(new SimpleGrantedAuthority(r.getName()));});*//**//*TODO*//*
         return authorities;
     }
 
@@ -153,6 +152,6 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), getAuthority(user));
-    }
+    }*/
 
 }

@@ -4,10 +4,9 @@ import kz.u.u.uMe.models.audits.AuditModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -23,6 +22,8 @@ public class Role extends AuditModel {
     public final static String ROLE_TEACHER_NAME = "ROLE_TEACHER";
     public final static String ROLE_STUDENT_NAME = "ROLE_STUDENT";*/
 
-    @Column(unique = true)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(length = 60)
+    private RoleName name;
 }

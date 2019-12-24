@@ -3,16 +3,28 @@ package kz.u.u.uMe.models.entities;
 import kz.u.u.uMe.models.audits.AuditModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
 @Data
 @NoArgsConstructor
 public class User extends AuditModel {
@@ -21,43 +33,27 @@ public class User extends AuditModel {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @Column(name = "email")
-    @NotNull(message = "email is required")
+    @NaturalId
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
 
-    @Column(unique = true, name = "login")
-    @NotNull(message = "login is required")
-    private String login;
+    @NotBlank
+    @Size(min=3, max = 50)
+    private String username;
 
-    @NotNull(message = "password is required")
+    @NotBlank
+    @Size(min=6, max = 100)
     private String password;
 
 /*    @ManyToOne
     @NotNull(message = "role is required")
     @OnDelete(action = OnDeleteAction.NO_ACTION)*/
-@ManyToMany(
-        fetch = FetchType.EAGER,
-        cascade = CascadeType.ALL
-)
-@JoinTable(
-        name = "users_roless",
-        joinColumns =
-                {
-                        @JoinColumn(
-                                name = "user_id",
-                                nullable = false,
-                                foreignKey = @ForeignKey(name = "fk_users_roles_users")
-                        )
-                },
-        inverseJoinColumns =
-                {
-                        @JoinColumn(
-                                name = "role_id",
-                                nullable = false,
-                                foreignKey = @ForeignKey(name = "fk_users_roles_roles")
-                        )
-                }
-)
-    private Set<Role> roles;
+@ManyToMany(fetch = FetchType.LAZY)
+@JoinTable(name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+private Set<Role> roles = new HashSet<>();
 
 }
