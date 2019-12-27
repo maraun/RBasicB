@@ -31,7 +31,6 @@ public class UserController extends BaseController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @CrossOrigin
     public ResponseEntity<?> getAll() {
         return buildResponse(userMapper.toDtoList(userService.findAll()), HttpStatus.OK);
     }
