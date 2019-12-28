@@ -30,6 +30,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping
+    @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll() {
         return buildResponse(userMapper.toDtoList(userService.findAll()), HttpStatus.OK);
@@ -80,14 +81,15 @@ public class UserController extends BaseController {
                 .build(), HttpStatus.OK);
     }
 
-    @PostMapping("/current")
+    @CrossOrigin
+    @GetMapping("/current")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) throws ServiceException {
         String username = authentication.getName();
-        User user = userService.findByUsername(username);
-        return buildResponse(SuccessResponse.builder()
+        return buildResponse(userMapper.toDto(userService.findByUsername(username)), HttpStatus.OK);
+        /*return buildResponse(SuccessResponse.builder()
                 .message("found")
                 .data(userMapper.toDto(user))
-                .build(), HttpStatus.OK);
+                .build(), HttpStatus.OK);*/
     }
 
 }
