@@ -7,6 +7,7 @@ import kz.u.u.uMe.models.message.response.JwtResponse;
 import kz.u.u.uMe.models.message.response.ResponseMessage;
 import kz.u.u.uMe.repositories.RoleRepository;
 import kz.u.u.uMe.repositories.UserRepository;
+import kz.u.u.uMe.services.UserService;
 import kz.u.u.uMe.shared.security.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,9 @@ public class AuthRestAPIs {
 	@Autowired
 	JwtProvider jwtProvider;
 
+	@Autowired
+	UserService userService;
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
 
@@ -53,8 +57,8 @@ public class AuthRestAPIs {
 
 		String jwt = jwtProvider.generateJwtToken(authentication);
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+		String firstname = userService.findByUsername(userDetails.getUsername()).getProfile().getFirstname();
+		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), firstname, userDetails.getAuthorities()));
 	}
 
 /*	@PostMapping("/signup")
